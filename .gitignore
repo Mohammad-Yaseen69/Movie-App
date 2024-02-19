@@ -27,3 +27,5 @@ public/vite.svg
 package-lock.json
 postcss.config.js
 vite.config.js
+src/.env
+.env
