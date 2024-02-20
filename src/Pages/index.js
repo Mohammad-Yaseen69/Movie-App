@@ -1,0 +1,5 @@
+export {default as Home} from './Home/Home'
+export {default as Page404} from './404/404'
+export {default as Explore} from './Explore/Explore'
+export {default as SearchResult} from './Search Result/SearchResult'
+export {default as Details} from './Details/Details'
