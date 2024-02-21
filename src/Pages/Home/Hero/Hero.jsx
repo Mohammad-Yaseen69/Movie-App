@@ -10,12 +10,15 @@ const Hero = () => {
   const navigate = useNavigate()
   const [background, setBackground] = useState("")
   const { url } = useSelector(state => state.homeSlice)
-  const { data, loading } = useFetch(`discover/movie`)
+  const { data, loading } = useFetch(`trending/all/day`)
 
   useEffect(() => {
     const rn = Number(Math.floor(Math.random() * data?.results?.length))
+
     if (!isNaN(rn)) {
-      const bg = url?.backdrop + data?.results[rn]?.backdrop_path;
+      const bg =
+        url?.backdrop ? url?.backdrop + data?.results[rn]?.backdrop_path :
+          "http://image.tmdb.org/t/p/original" + data?.results[rn]?.backdrop_path;
       setBackground(bg)
 
     }
@@ -25,6 +28,9 @@ const Hero = () => {
       navigate(`/search/${query}`)
     }
   }
+  console.log(background);
+
+
 
   return (
     <div className="heroBanner">

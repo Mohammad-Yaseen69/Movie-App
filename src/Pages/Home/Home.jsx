@@ -5,6 +5,7 @@ const Home = () => {
   return (
     <div>
       <Hero />
+      <div style={{height : 1200}}></div>
     </div>
   )
 }
