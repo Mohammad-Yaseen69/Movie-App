@@ -3,7 +3,7 @@ import { fetchData } from "./utils/api"
 import { Header, Footer } from "./Components";
 import { Outlet } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { getApiConf } from "./store/homeSlice";
+import { getApiConf , getGenres} from "./store/homeSlice";
 
 function App() {
   const dispatch = useDispatch()
@@ -22,9 +22,26 @@ function App() {
           console.log(err);
         })
     }
+    const genresCall = async () => {
+      const promises = []
+      const endPoints = ['tv', 'movie']
+      const genresObj = {}
 
+      endPoints.forEach(item => {
+        promises.push(fetchData(`genre/${item}/list`))
+      })
+
+      const data = await Promise.all(promises)
+
+      data.map(({ genres }) => genres.map(item => genresObj[item.id] = item.name))
+      dispatch(getGenres(genresObj))
+    }
+
+    genresCall()
     getApiConfiguration()
   }, [])
+
+
 
   return (
     <div>
