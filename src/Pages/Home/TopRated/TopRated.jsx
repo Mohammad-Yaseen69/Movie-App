@@ -3,9 +3,9 @@ import { Wrapper, SwitchTab, Carousel } from '../../../Components'
 import '../Trending/style.scss'
 import useFetch from '../../../hooks/useFetch'
 
-const Popular = () => {
+const TopRated = () => {
     const [endPoint, setEndPoint] = useState("movie")
-    const { data, loading, error } = useFetch(`${endPoint}/popular`)
+    const { data, loading, error } = useFetch(`${endPoint}/top_rated`)
 
 
     const onTabChange = (tab) => {
@@ -13,7 +13,7 @@ const Popular = () => {
         setEndPoint(currentEndPoint === "tv shows" ? "tv" : currentEndPoint)
     }
     
-   
+    console.log(data);
     return (
         <div className='crouselSection'>
             <Wrapper>
@@ -25,4 +25,4 @@ const Popular = () => {
     )
 }
 
-export default Popular
+export default TopRated

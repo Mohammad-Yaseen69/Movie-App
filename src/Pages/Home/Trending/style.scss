@@ -2,7 +2,7 @@
 
 .crouselSection {
     position: relative;
-    margin-bottom: 50px;
+    margin-bottom: 70px;
 
     >.contentWrapper {
         display: flex;
@@ -13,7 +13,7 @@
         .crouselTitle {
             font-size: 20px;
             color: white;
-            font-weight: 500;
+            font-weight: 300;
             @include xs {
                 font-size: 35px;
             }
