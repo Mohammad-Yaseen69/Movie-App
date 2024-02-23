@@ -10,7 +10,7 @@ import { Wrapper, Img, Circle, Genres } from '../'
 import PosterFallback from "../../assets/no-poster.png";
 import "./style.scss";
 
-const Carousel = ({ data, loading }) => {
+const Carousel = ({ data, loading , type}) => {
     const carouselContainer = useRef();
     const { url } = useSelector(state => state.homeSlice)
     const { genres } = useSelector(state => state.homeSlice)
@@ -61,7 +61,7 @@ const Carousel = ({ data, loading }) => {
 
                             return (
                                 <div key={item?.id} className="carouselItem">
-                                    <div onClick={() => navigate(`/${item.media_type}/${item.id}`)} className="posterBlock" >
+                                    <div onClick={() => navigate(`/${item.media_type || type}/${item.id}`)} className="posterBlock" >
                                         <Img src={posterUrl} />
                                         <Circle rating={item.vote_average.toFixed(1)} />
                                         <Genres data={item?.genre_ids} />
@@ -69,7 +69,7 @@ const Carousel = ({ data, loading }) => {
                                     <div className="textBlock">
                                         <span className="title">{item.title || item.name}</span>
                                         <span className="date">
-                                            {dayjs(item.release_date).format("MMM/D/YYYY")}
+                                            {dayjs(item.release_date || item.first_air_date).format("MMM/D/YYYY")}
                                         </span>
                                     </div>
                                     <span className="circleRating"></span>
