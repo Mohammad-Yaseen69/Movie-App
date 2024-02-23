@@ -12,8 +12,6 @@ const TopRated = () => {
         const currentEndPoint = tab.toLowerCase()
         setEndPoint(currentEndPoint === "tv shows" ? "tv" : currentEndPoint)
     }
-    
-    console.log(data);
     return (
         <div className='crouselSection'>
             <Wrapper>
