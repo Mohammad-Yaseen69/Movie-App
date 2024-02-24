@@ -4,6 +4,8 @@ import useFetch from '../../hooks/useFetch'
 import DetailsBanner from './DetailsBanner/DetailsBanner.jsx'
 import Cast from './Cast/Cast.jsx'
 import Videos from './Videos/Videos.jsx'
+import Recommendation from './Carousels/Recommendation.jsx'
+import Similar from './Carousels/Similar.jsx'
 
 const Details = () => {
 
@@ -19,6 +21,8 @@ const Details = () => {
       />
       <Cast data={crew?.cast} loading={crewLoading} />
       <Videos data={data?.results} loading={loading} />
+      <Similar mediaType={type} id={id} />
+      <Recommendation mediaType={type} id={id}/>
     </div>
   )
 }

@@ -10,7 +10,7 @@ import { Wrapper, Img, Circle, Genres } from '../'
 import PosterFallback from "../../assets/no-poster.png";
 import "./style.scss";
 
-const Carousel = ({ data, loading, type }) => {
+const Carousel = ({ data, loading, type , title}) => {
     const carouselContainer = useRef();
     const { url } = useSelector(state => state.homeSlice)
     const { genres } = useSelector(state => state.homeSlice)
@@ -43,6 +43,7 @@ const Carousel = ({ data, loading, type }) => {
     return (
         <div className="carousel">
             <Wrapper>
+                {title && <div className="carouselTitle">{title}</div>}
                 <BsFillArrowLeftCircleFill
                     className="arrow carouselLeftNav"
                     cursor="pointer"
