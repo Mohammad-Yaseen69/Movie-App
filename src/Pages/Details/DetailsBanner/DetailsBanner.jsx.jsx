@@ -19,7 +19,7 @@ const DetailsBanner = ({ video, crew }) => {
     const toHoursAndMinutes = (totalMinutes) => {
         const hours = Math.floor(totalMinutes / 60);
         const minutes = totalMinutes % 60;
-        return `${hours > 0 ?  hours`h`: ""} ${minutes > 0 ? ` ${minutes}m` : ""}`;
+        return `${hours > 0 ?  `${hours}h`: ""} ${minutes > 0 ? ` ${minutes}m` : ""}`;
     };
     console.log(data);
 
