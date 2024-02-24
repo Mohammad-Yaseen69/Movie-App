@@ -100,7 +100,7 @@ const DetailsBanner = ({ video, crew, cast }) => {
                                                 text={"Runtime"}
                                             />
 
-                                            {data?.episode_run_time.length > 0 && <InfoItem
+                                            {data?.episode_run_time?.length > 0 && <InfoItem
                                                 data={data?.episode_run_time}
                                                 method={(time) => toHoursAndMinutes(time[0])}
                                                 text={"Episode Run Time"}
@@ -128,7 +128,7 @@ const DetailsBanner = ({ video, crew, cast }) => {
                                             </div>
                                         }
 
-                                        {data?.created_by.length > 0 &&
+                                        {data?.created_by?.length > 0 &&
                                             <div className="info">
                                                 <InfoItem
                                                     text={"Creator"}
