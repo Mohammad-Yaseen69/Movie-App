@@ -2,28 +2,22 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import dayjs from "dayjs";
-import { Circle, Img, Genres, Wrapper, InfoItem } from '../../../Components'
+import { Circle, Img, Genres, Wrapper, InfoItem, VideoPlayer } from '../../../Components'
 import useFetch from "../../../hooks/useFetch";
 import PosterFallback from "../../../assets/no-poster.png";
 import "./style.scss";
 import { PlayBtn } from "./PlayBtn";
 
 const DetailsBanner = ({ video, crew, cast }) => {
+    // Hooks
     const { id, type } = useParams()
     const { data, loading } = useFetch(`${type}/${id}`)
     const { url } = useSelector(state => state.homeSlice)
+    const [show, setShow] = useState(false)
+    const [videoId, setVideoId] = useState(null)
+
+    // Array Filtrations
     const _genres = data?.genres?.map(genre => genre.id)
-    const backdrop_url = url?.backdrop ? url?.backdrop + data?.backdrop_path :
-        "http://image.tmdb.org/t/p/original" + data?.backdrop_path;
-
-    const toHoursAndMinutes = (totalMinutes) => {
-        const hours = Math.floor(totalMinutes / 60);
-        const minutes = totalMinutes % 60;
-        return `${hours > 0 ? `${hours}h` : ""} ${minutes > 0 ? ` ${minutes}m` : ""}`;
-    };
-
-    console.log(data);
-
     const director = crew?.filter(c => c.job === "Director")
     const writer = crew?.filter(
         c => c.job === "Writer" ||
@@ -31,6 +25,19 @@ const DetailsBanner = ({ video, crew, cast }) => {
             c.job === "Story" ||
             c.known_for_department === "Writing"
     )
+
+    // Backdrop Url
+    const backdrop_url = url?.backdrop ? url?.backdrop + data?.backdrop_path :
+        "http://image.tmdb.org/t/p/original" + data?.backdrop_path;
+
+
+    // Method
+    const toHoursAndMinutes = (totalMinutes) => {
+        const hours = Math.floor(totalMinutes / 60);
+        const minutes = totalMinutes % 60;
+        return `${hours > 0 ? `${hours}h` : ""} ${minutes > 0 ? ` ${minutes}m` : ""}`;
+    };
+
 
     return (
         <div className="detailsBanner">
@@ -64,7 +71,10 @@ const DetailsBanner = ({ video, crew, cast }) => {
 
                                         <div className="row ratings">
                                             <Circle rating={data.vote_average.toFixed(1)} />
-                                            <div className="playbtn">
+                                            <div onClick={() => {
+                                                setShow(true)
+                                                setVideoId(video?.key)
+                                            }} className="playbtn">
                                                 <PlayBtn />
                                                 <span className="text">Watch Trailor</span>
                                             </div>
@@ -90,7 +100,7 @@ const DetailsBanner = ({ video, crew, cast }) => {
                                                 text={"Runtime"}
                                             />
 
-                                         {data?.episode_run_time.length > 0 && <InfoItem
+                                            {data?.episode_run_time.length > 0 && <InfoItem
                                                 data={data?.episode_run_time}
                                                 method={(time) => toHoursAndMinutes(time[0])}
                                                 text={"Episode Run Time"}
@@ -102,7 +112,7 @@ const DetailsBanner = ({ video, crew, cast }) => {
                                                 <InfoItem
                                                     text={"Director"}
                                                     data={director}
-                                                    method={(data) => data.slice(0 , 6).map(d => d.name).join(", ")}
+                                                    method={(data) => data.slice(0, 6).map(d => d.name).join(", ")}
                                                 />
                                             </div>
                                         }
@@ -112,7 +122,7 @@ const DetailsBanner = ({ video, crew, cast }) => {
                                                 <InfoItem
                                                     text={"Writer"}
                                                     data={writer}
-                                                    method={(data) => data.slice(0 , 6).map(d => d.name).join(", ")}
+                                                    method={(data) => data.slice(0, 6).map(d => d.name).join(", ")}
                                                 />
 
                                             </div>
@@ -123,12 +133,18 @@ const DetailsBanner = ({ video, crew, cast }) => {
                                                 <InfoItem
                                                     text={"Creator"}
                                                     data={data?.created_by}
-                                                    method={(data) => data.slice(0 , 6).map(d => d.name).join(", ")}
+                                                    method={(data) => data.slice(0, 6).map(d => d.name).join(", ")}
                                                 />
                                             </div>
                                         }
                                     </div>
                                 </div>
+                                <VideoPlayer
+                                    setShow={setShow}
+                                    show={show}
+                                    setVideoId={setVideoId}
+                                    videoId={videoId}
+                                />
                             </Wrapper>
                         </>
                     )}
