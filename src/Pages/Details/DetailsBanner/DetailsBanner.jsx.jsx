@@ -8,7 +8,7 @@ import PosterFallback from "../../../assets/no-poster.png";
 import "./style.scss";
 import { PlayBtn } from "./PlayBtn";
 
-const DetailsBanner = ({ video, crew }) => {
+const DetailsBanner = ({ video, crew, cast }) => {
     const { id, type } = useParams()
     const { data, loading } = useFetch(`${type}/${id}`)
     const { url } = useSelector(state => state.homeSlice)
@@ -19,10 +19,19 @@ const DetailsBanner = ({ video, crew }) => {
     const toHoursAndMinutes = (totalMinutes) => {
         const hours = Math.floor(totalMinutes / 60);
         const minutes = totalMinutes % 60;
-        return `${hours > 0 ?  `${hours}h`: ""} ${minutes > 0 ? ` ${minutes}m` : ""}`;
+        return `${hours > 0 ? `${hours}h` : ""} ${minutes > 0 ? ` ${minutes}m` : ""}`;
     };
-    console.log(data);
 
+   
+
+    const director = crew?.filter(c => c.job === "Director")
+    const writer = crew?.filter(
+        c => c.job === "Writer" ||
+            c.job === "Screenplay" ||
+            c.job === "Story" ||
+            c.known_for_department === "Writing"
+    )
+   
     return (
         <div className="detailsBanner">
             {!loading ? (
@@ -87,6 +96,29 @@ const DetailsBanner = ({ video, crew }) => {
                                                 text={"Episode Run Time"}
                                             />
                                         </div>
+
+                                        {director?.length > 0 &&
+                                            <div className="info crew">
+                                                <InfoItem
+                                                    text={"Director"}
+                                                    data={director}
+                                                    method={(data) => data.map(d => d.name).join(", ")}
+                                                />
+                                            </div>
+                                        }
+
+                                        {writer?.length > 0 &&
+                                            <div className="info crew">
+                                                <InfoItem
+                                                    text={"Writer"}
+                                                    data={writer}
+                                                    method={(data) => data.map(d => d.name).join(", ")}
+                                                />
+                                                
+                                            </div>
+                                        }
+
+                                        
                                     </div>
                                 </div>
                             </Wrapper>
