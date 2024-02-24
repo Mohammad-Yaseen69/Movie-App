@@ -10,7 +10,7 @@ import { Wrapper, Img, Circle, Genres } from '../'
 import PosterFallback from "../../assets/no-poster.png";
 import "./style.scss";
 
-const Carousel = ({ data, loading , type}) => {
+const Carousel = ({ data, loading, type }) => {
     const carouselContainer = useRef();
     const { url } = useSelector(state => state.homeSlice)
     const { genres } = useSelector(state => state.homeSlice)
@@ -64,7 +64,7 @@ const Carousel = ({ data, loading , type}) => {
                                     <div onClick={() => navigate(`/${item.media_type || type}/${item.id}`)} className="posterBlock" >
                                         <Img src={posterUrl} />
                                         <Circle rating={item.vote_average.toFixed(1)} />
-                                        <Genres data={item?.genre_ids} />
+                                        <Genres data={item?.genre_ids.slice(0, 2)} />
                                     </div>
                                     <div className="textBlock">
                                         <span className="title">{item.title || item.name}</span>
