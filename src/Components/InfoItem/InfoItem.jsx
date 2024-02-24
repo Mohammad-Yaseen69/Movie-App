@@ -1,6 +1,7 @@
 import React from 'react'
 
 const InfoItem = ({ data, text, method }) => {
+   
     return (
         <div>
             {(data) && (

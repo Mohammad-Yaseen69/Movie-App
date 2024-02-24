@@ -22,7 +22,7 @@ const DetailsBanner = ({ video, crew, cast }) => {
         return `${hours > 0 ? `${hours}h` : ""} ${minutes > 0 ? ` ${minutes}m` : ""}`;
     };
 
-   
+    console.log(data);
 
     const director = crew?.filter(c => c.job === "Director")
     const writer = crew?.filter(
@@ -31,7 +31,7 @@ const DetailsBanner = ({ video, crew, cast }) => {
             c.job === "Story" ||
             c.known_for_department === "Writing"
     )
-   
+
     return (
         <div className="detailsBanner">
             {!loading ? (
@@ -90,35 +90,43 @@ const DetailsBanner = ({ video, crew, cast }) => {
                                                 text={"Runtime"}
                                             />
 
-                                            <InfoItem
+                                         {data?.episode_run_time.length > 0 && <InfoItem
                                                 data={data?.episode_run_time}
                                                 method={(time) => toHoursAndMinutes(time[0])}
                                                 text={"Episode Run Time"}
-                                            />
+                                            />}
                                         </div>
 
                                         {director?.length > 0 &&
-                                            <div className="info crew">
+                                            <div className="info">
                                                 <InfoItem
                                                     text={"Director"}
                                                     data={director}
-                                                    method={(data) => data.map(d => d.name).join(", ")}
+                                                    method={(data) => data.slice(0 , 6).map(d => d.name).join(", ")}
                                                 />
                                             </div>
                                         }
 
                                         {writer?.length > 0 &&
-                                            <div className="info crew">
+                                            <div className="info">
                                                 <InfoItem
                                                     text={"Writer"}
                                                     data={writer}
-                                                    method={(data) => data.map(d => d.name).join(", ")}
+                                                    method={(data) => data.slice(0 , 6).map(d => d.name).join(", ")}
                                                 />
-                                                
+
                                             </div>
                                         }
 
-                                        
+                                        {data?.created_by.length > 0 &&
+                                            <div className="info">
+                                                <InfoItem
+                                                    text={"Creator"}
+                                                    data={data?.created_by}
+                                                    method={(data) => data.slice(0 , 6).map(d => d.name).join(", ")}
+                                                />
+                                            </div>
+                                        }
                                     </div>
                                 </div>
                             </Wrapper>
