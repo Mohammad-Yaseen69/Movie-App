@@ -3,7 +3,7 @@ import { fetchData } from "./utils/api"
 import { Header, Footer } from "./Components";
 import { Outlet } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { getApiConf , getGenres} from "./store/homeSlice";
+import { getApiConf, getGenres, getGenresByType } from "./store/homeSlice";
 
 function App() {
   const dispatch = useDispatch()
@@ -32,8 +32,13 @@ function App() {
       })
 
       const data = await Promise.all(promises)
-
       data.map(({ genres }) => genres.map(item => genresObj[item.id] = item.name))
+      dispatch(
+        getGenresByType({
+          tv: data[0].genres,
+          movie: data[1].genres,
+        })
+      )
       dispatch(getGenres(genresObj))
     }
 
