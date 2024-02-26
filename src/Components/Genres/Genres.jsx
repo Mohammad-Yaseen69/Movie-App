@@ -7,7 +7,7 @@ const Genres = ({ data }) => {
 
     return (
         <div className='genres'>
-            {data.map(id => (
+            {data?.map(id => (
                 <span key={id} className='genre'>
                     {genres[id]}
                 </span>
