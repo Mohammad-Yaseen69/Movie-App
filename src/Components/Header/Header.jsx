@@ -47,7 +47,7 @@ const Header = () => {
 
   const searchQueryHandler = (e) => {
     if (e.key === "Enter" && query.length > 0) {
-      navigate(`/search/${query}`)
+      navigate(`/search/${query.trimEnd()}`)
       setTimeout(() => {
         setShowSearch(false)
       }, 1000);

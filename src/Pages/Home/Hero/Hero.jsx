@@ -25,10 +25,10 @@ const Hero = () => {
   }, [data])
   const searchQueryHandler = (e) => {
     if (e.key === "Enter" && query.length > 0) {
-      navigate(`/search/${query}`)
+      navigate(`/search/${query.trimEnd()}`)
     }
   }
-  console.log(background);
+  // console.log(background);
 
 
 
