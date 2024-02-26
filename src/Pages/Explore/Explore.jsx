@@ -89,7 +89,7 @@ const Explore = () => {
       }
     }
 
-    else if (action.name === "sortBy") {
+    else if (action.name === "sortby") {
 
       if (action !== "clear") {
         filters.sort_by = value.value
