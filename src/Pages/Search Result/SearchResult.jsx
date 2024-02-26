@@ -64,7 +64,7 @@ const SearchResult = () => {
               >
                 {data?.map((item) => (
                   <>
-                    <MovieCard mediaType={item.media_type} data={item} fromSearch={true} />
+                    <MovieCard key={item.id} mediaType={item.media_type} data={item} fromSearch={true} />
                   </>
                 ))}
               </InfiniteScroll>

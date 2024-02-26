@@ -24,8 +24,9 @@ const sortbyData = [
 
 
 const Explore = () => {
-  const { genres } = useSelector(state => state.homeSlice)
   const { type } = useParams()
+  const { genresByType } = useSelector(state => state.homeSlice)
+
 
   // States
   const [data, setData] = useState([])
@@ -35,10 +36,12 @@ const Explore = () => {
   const [genre, setGenre] = useState(null)
   const [sortby, setSortby] = useState(null)
 
+
+
   const fetchInitialData = async () => {
     setLoading(true)
     try {
-      const res = await fetchData(`discover/${type}`)
+      const res = await fetchData(`discover/${type}`, filters)
       setData(res?.results)
       setTotalPages(res?.total_pages)
       setPage(prev => prev + 1)
@@ -70,7 +73,36 @@ const Explore = () => {
     fetchInitialData();
   }, [type]);
 
-  console.log(data);
+  const onChange = (value, action) => {
+
+    if (action.name === "genres") {
+      setGenre(value.name)
+
+      if (action !== "clear") {
+        let genreId = value.map((g) => g.id);
+        genreId = JSON.stringify(genreId).slice(1, -1);
+        filters.with_genres = genreId;
+        console.log(filters.with_genres);
+      }
+      else {
+        delete filters.with_genres;
+      }
+    }
+
+    else if (action.name === "sortBy") {
+
+      if (action !== "clear") {
+        filters.sort_by = value.value
+      }
+      else {
+        delete filters.sort_by
+      }
+      setSortby(value.name)
+    }
+    setPage(1)
+    fetchInitialData()
+  }
+
   return (
 
     <div className='explorePage'>
@@ -78,6 +110,36 @@ const Explore = () => {
         <div className="pageHeader">
           <div className="pageTitle">
             Explore {type === "tv" ? "Tv Shows" : "Movies"}
+          </div>
+
+          <div className="filters">
+            <Select
+              isMulti
+              name="genres"
+              value={genre}
+              closeMenuOnSelect={false}
+              options={genresByType[type]?.map(option => (
+                {
+                  id: option.id,
+                  name: option.name,
+                }))}
+              getOptionLabel={(option) => option.name}
+              getOptionValue={(option) => option.id}
+              onChange={onChange}
+              placeholder="Select genres"
+              className="react-select-container genresDD"
+              classNamePrefix="react-select"
+            />
+            <Select
+              name="sortby"
+              options={sortbyData}
+              value={sortby}
+              onChange={onChange}
+              isClearable={true}
+              placeholder="Sort by"
+              className="react-select-container sortbyDD"
+              classNamePrefix="react-select"
+            />
           </div>
         </div>
 
