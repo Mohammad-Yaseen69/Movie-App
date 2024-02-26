@@ -8,6 +8,7 @@ const Cast = ({ data, loading }) => {
     const { url } = useSelector((state) => state.homeSlice);
 
 
+
     const skeleton = () => {
         return (
             <div className="skItem">
@@ -24,8 +25,7 @@ const Cast = ({ data, loading }) => {
                 {!loading ? (
                     <div className="listItems">
                         {data?.map((c, i) => {
-                            const profile_url = url?.profile ? url?.profile + c?.profile_path :
-                                "http://image.tmdb.org/t/p/original" + c?.profile_path;
+                            const profile_url = url?.profile + c?.profile_path || c?.poster_path;
                             const isProfileAvailable = profile_url == "http://image.tmdb.org/t/p/originalundefined" ? avatar : profile_url
                             return (
                                 <div key={i} className="listItem">

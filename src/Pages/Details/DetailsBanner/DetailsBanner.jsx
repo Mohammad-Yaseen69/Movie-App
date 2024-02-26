@@ -38,7 +38,7 @@ const DetailsBanner = ({ video, crew, cast }) => {
         return `${hours > 0 ? `${hours}h` : ""} ${minutes > 0 ? ` ${minutes}m` : ""}`;
     };
 
-
+    
     return (
         <div className="detailsBanner">
             {!loading ? (
@@ -52,9 +52,9 @@ const DetailsBanner = ({ video, crew, cast }) => {
                             <Wrapper>
                                 <div className="content">
                                     <div className="left">
-                                        {data.poster_path ?
+                                        {data.poster_path || data?.profile_path ?
                                             (<>
-                                                <Img className="posterImg" src={url.backdrop + data.poster_path} />
+                                                <Img className="posterImg" src={url.backdrop + data.poster_path || url?.profile + data?.profile_path} />
                                             </>) :
                                             (<>
                                                 <Img className="posterImg" src={PosterFallback} />
@@ -69,7 +69,7 @@ const DetailsBanner = ({ video, crew, cast }) => {
                                         </div>
                                         <Genres data={_genres} />
 
-                                        <div className="row ratings">
+                                        {type !== "person" && <div className="row ratings">
                                             <Circle rating={data?.vote_average?.toFixed(1)} />
                                             <div onClick={() => {
                                                 setShow(true)
@@ -79,14 +79,20 @@ const DetailsBanner = ({ video, crew, cast }) => {
                                                 <span className="text">Watch Trailor</span>
                                             </div>
                                         </div>
-
+                                        }
+                                        {type === "person" && <div className="info">
+                                            <InfoItem data={data?.known_for_department} text={"Known For"} />
+                                            <InfoItem data={data?.birthday} text={"Birthday"} />
+                                            <InfoItem data={data?.place_of_birth} text={"Birth Place"} />
+                                        </div>}
                                         <div className="overview">
                                             <div className="heading">Overview</div>
-                                            <div className="description">{data.overview}</div>
+                                            <div className="description">{data.overview || data.biography}</div>
                                         </div>
 
-                                        <div className="info">
+                                        {type !== "person" && <div className="info">
                                             <InfoItem data={data?.status} text={"Status"} />
+
 
 
                                             <InfoItem
@@ -105,7 +111,9 @@ const DetailsBanner = ({ video, crew, cast }) => {
                                                 method={(time) => toHoursAndMinutes(time[0])}
                                                 text={"Episode Run Time"}
                                             />}
-                                        </div>
+                                        </div>}
+
+
 
                                         {director?.length > 0 &&
                                             <div className="info">
@@ -139,12 +147,14 @@ const DetailsBanner = ({ video, crew, cast }) => {
                                         }
                                     </div>
                                 </div>
+
                                 <VideoPlayer
                                     setShow={setShow}
                                     show={show}
                                     setVideoId={setVideoId}
                                     videoId={videoId}
                                 />
+
                             </Wrapper>
                         </>
                     )}

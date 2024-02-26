@@ -20,9 +20,13 @@ const Details = () => {
         video={data?.results[0]}
       />
       <Cast data={crew?.cast} loading={crewLoading} />
-      <Videos data={data?.results} loading={loading} />
-      <Similar mediaType={type} id={id} />
-      <Recommendation mediaType={type} id={id}/>
+      {type !== "person" &&
+        <>
+          <Videos data={data?.results} loading={loading} />
+          <Similar mediaType={type} id={id} />
+          <Recommendation mediaType={type} id={id} />
+        </>
+      }
     </div>
   )
 }
