@@ -18,7 +18,7 @@ const Header = () => {
   const Links = [
     {
       name: "Movies",
-      link: "movies"
+      link: "movie"
     },
     {
       name: "TV Shows",
