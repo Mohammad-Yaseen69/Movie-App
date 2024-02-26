@@ -21,7 +21,7 @@ const MovieCard = ({ data, fromSearch, mediaType }) => {
         >
             <div className="posterBlock">
                 <Img className="posterImg" src={posterUrl || url?.profile + data?.profile_path} />
-                {!fromSearch && !data?.media_type === "person" && (
+                {!fromSearch && data?.media_type !== "person" && (
                     <React.Fragment>
                         <Circle rating={data?.vote_average?.toFixed(1)} />
                         <Genres data={data?.genre_ids?.slice(0, 2)} />
